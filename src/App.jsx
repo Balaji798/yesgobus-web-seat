@@ -6,6 +6,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<BusBooking />} />
         <Route path="/busbooking" element={<BusBooking />} />
       </Routes>
     </BrowserRouter>
