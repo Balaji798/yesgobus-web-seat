@@ -4,7 +4,7 @@ export const getSrsBuses = async (sourceCity, destinationCity, doj) => {
   try {
     console.log(sourceCity, destinationCity, doj)
     const response = await axiosInstance.get(
-      `${import.meta.env.VITE_BASE_URL}/api/busBooking/getSrsSchedules/${sourceCity}/${destinationCity}/${doj}`
+      `${import.meta.env.VITE_BASE_URL}/busBooking/getSrsSchedules/${sourceCity}/${destinationCity}/${doj}`
     );
     return response.data;
   } catch (error) {
@@ -16,7 +16,7 @@ export const getSrsBuses = async (sourceCity, destinationCity, doj) => {
 export const getSrsSeatLayout = async (schedule_id) => {
   try {
     const response = await axiosInstance.get(
-      `${import.meta.env.VITE_BASE_URL}/api/busBooking/getSrsSeatDetails/${schedule_id}`
+      `${import.meta.env.VITE_BASE_URL}/busBooking/getSrsSeatDetails/${schedule_id}`
     );
     return response.data;
   } catch (error) {
