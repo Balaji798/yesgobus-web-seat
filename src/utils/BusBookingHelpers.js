@@ -70,16 +70,89 @@ export function sortBuses(busList, sortData) {
 // BusBookingCard props by provider
 export function getBusBookingCardProps(
   bus,
+  fromLocation,
+  toLocation,
+  selectedDate
 ) {
+  const isVrl = bus.type === "vrl" ? true : false;
+
+  if (isVrl) {
     return {
-      scheduleId: bus?.id,
-      seatsLeft: bus?.available_seats,
-      pickUpLocationOne: bus?.boarding_stages,
-      dropLocationOne: bus?.dropoff_stages,
+      key: bus?.ReferenceNumber,
+      ReferenceNumber: bus?.ReferenceNumber,
+      // inventoryType:bus.inventoryType,
+      sourceCity: fromLocation,
+      sourceCityId: bus?.FromCityId,
+      destinationCity: toLocation,
+      destinationCityId: bus?.ToCityId,
+      doj: selectedDate,
+      title: "VRL Travels",
+      busName: "VRL Travels",
+      busType: bus?.BusTypeName,
+      rating: (Math.random() * 1 + 4).toFixed(1),
+      noOfReviews: Math.floor(Math.random() * 101) + 37,
+      pickUpLocation: bus?.FromCityName,
+      pickUpTime: bus?.CityTime,
+      reachLocation: bus?.ToCityName,
+      reachTime: bus?.ArrivalTime,
+      // calucalte total time
+      travelTime: calculateVrlTravelTime(
+        bus?.BookingDate,
+        bus?.CityTime24,
+        bus?.ApproxArrival
+      ),
+      seatsLeft: bus?.EmptySeats,
+      // avlWindowSeats:bus?.avlWindowSeats,
+      price: bus?.lowestPrice,
+      allPrices: bus?.allPrices,
+      // pickUpTimes:pickUpTimes,
+      pickUpLocationOne: bus?.BoardingPoints,
+      // pickUpLocationTwo:pickUpLocationTwo,
+      // dropTimes:dropTimes,
+      dropLocationOne: bus?.DroppingPoints,
+      // dropLocationTwo:dropLocationTwo,
       backSeat: true,
+      // cancellationPolicy:bus?.cancellationPolicy,
+      fare: bus?.fares,
+      isVrl: true,
+      isBusAc: bus?.BusType === 0,
+    };
+  } else {
+    return {
+      key: bus?.id,
+      scheduleId: bus?.id,
+      // inventoryType:bus.inventoryType,
+      sourceCity: fromLocation,
+      sourceCityId: bus?.origin_id,
+      destinationCity: toLocation,
+      destinationCityId: bus?.destination_id,
+      doj: selectedDate,
+      title: bus?.operator_service_name,
+      busName: bus?.operator_service_name,
+      busType: bus?.bus_type,
+      rating: (Math.random() * 1 + 4).toFixed(1),
+      noOfReviews: Math.floor(Math.random() * 101) + 37,
+      pickUpLocation: fromLocation,
+      pickUpTime: bus?.dep_time,
+      reachLocation: toLocation,
+      reachTime: bus?.arr_time,
+      // calucalte total time
+      travelTime: bus?.duration,
+      seatsLeft: bus?.available_seats,
+      // avlWindowSeats:bus?.avlWindowSeats,
+      price: priceToDisplaySrs(bus?.show_fare_screen),
+      // pickUpTimes:pickUpTimes,
+      pickUpLocationOne: bus?.boarding_stages,
+      // pickUpLocationTwo:pickUpLocationTwo,
+      // dropTimes:dropTimes,
+      dropLocationOne: bus?.dropoff_stages,
+      // dropLocationTwo:dropLocationTwo,
+      backSeat: true,
+      // cancellationPolicy:bus?.cancellationPolicy,
       fare: bus?.show_fare_screen,
       isSrs: true,
     };
+  }
 }
 
 // Helper functions
