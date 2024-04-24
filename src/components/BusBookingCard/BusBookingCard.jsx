@@ -4,7 +4,8 @@ import Seats from "../Seats/Seats";
 import { Spin } from "antd";
 import toast, { Toaster } from "react-hot-toast";
 import { getSrsSeatLayout } from "../../api/srsBusesApis";
-import axiosInstance from "../../utils/service";
+//import axiosInstance from "../../utils/service";
+import axios from "axios";
 
 const BusBookingCard = ({
   allPrices,
@@ -402,7 +403,7 @@ const BusBookingCard = ({
     let seatData = [];
     try {
    
-      const response = await axiosInstance.get(
+      const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL
         }/busBooking/getSeatLayout/${tripId}`
       );
