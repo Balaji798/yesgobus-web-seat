@@ -407,10 +407,10 @@ const BusBookingCard = ({
         }/busBooking/getSeatLayout/${tripId}`
       );
       seatData = response.data?.seats;
-      const availableSeats = seatData?.filter(
-        (seat) => seat.available === "true"
-      );
-      setAvailableSeats(availableSeats?.length);
+      // const availableSeats = seatData?.filter(
+      //   (seat) => seat.available === "true"
+      // );
+      //setAvailableSeats(availableSeats?.length);
       setSeatDetails(seatData);
       setSeatLoading(false);
       setShowSeats(!showSeats);
