@@ -3,7 +3,7 @@ import BusBookingCard from "../components/BusBookingCard/BusBookingCard";
 import { useEffect, useState } from "react";
 
 import { Spin } from "antd";
-import { useLocation, Navigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { cityMapping } from "../utils/cityMapping";
 import { getVrlBuses } from "../api/vrlBusesApis";
 import { getSrsBuses } from "../api/srsBusesApis";
@@ -11,10 +11,6 @@ import { getBusBookingCardProps } from "../utils/BusBookingHelpers";
 
 const BusBooking = () => {
   const location = useLocation();
-  const [noOfBuses, setNoOfBuses] = useState(0);
-  const [noOfVrlBuses, setNoVrlOfBuses] = useState(0);
-  const [noOfSrsBuses, setNoSrsOfBuses] = useState(0);
-  const [busDetails, setBusDetails] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [vrlBuses, setVrlBuses] = useState([]);
@@ -111,7 +107,6 @@ const BusBooking = () => {
     doj,
     filters,
   ) => {
-    setBusDetails([]);
     setVrlBuses([]);
     setSrsBuses([]);
     if (
@@ -143,9 +138,6 @@ const BusBooking = () => {
     setFromLocation(sourceCity);
     setToLocation(destinationCity);
     setSelectedDate(doj);
-    setNoOfBuses(0);
-    setNoVrlOfBuses(0);
-    setNoSrsOfBuses(0);
 
     let sourceCities = [];
     let destinationCities = [];
@@ -195,7 +187,6 @@ const BusBooking = () => {
       }
       if (filters.minPrice && filters.maxPrice) {
         setVrlBuses([]);
-        setNoVrlOfBuses(0);
         filteredBuses = filteredBuses.filter((bus) => {
           const prices = bus.show_fare_screen
             .split("/")
@@ -211,7 +202,6 @@ const BusBooking = () => {
       );
 
       setSrsBuses(filteredBuses);
-      setNoSrsOfBuses(filteredBuses?.length);
     } else {
       isFilter = false;
     }
@@ -224,7 +214,6 @@ const BusBooking = () => {
             sourceCity: sourceCity.trim(),
             destinationCity: destinationCity.trim(),
             doj: doj,
-            ...filters,
           };
           const vrlResponse = await getVrlBuses(requestBody);
           if (Array.isArray(vrlResponse.data)) {
@@ -251,7 +240,6 @@ const BusBooking = () => {
 
               return [...newUniqueBusList];
             });
-            setNoVrlOfBuses((prevCount) => prevCount + uniqueBusesArray.length);
           } else {
             console.error("Invalid vrlResponse.data:", vrlResponse.data);
           }
@@ -276,7 +264,6 @@ const BusBooking = () => {
               ...prevFilteredBuses,
               ...filteredBuses,
             ]);
-            setNoSrsOfBuses((prevCount) => prevCount + filteredBuses?.length);
           }
         } catch (error) {
           console.log(error);
@@ -296,7 +283,7 @@ const BusBooking = () => {
   const busList = [...vrlBuses, ...srsBuses];
   const busData = busList.filter((item)=> {
     return item.id===Number(bus_id)})
-  const sortedBusList = busData.slice(0, 1)
+  const sortedBusList = busData.slice(0,1)
   return (
     <div className="busBooking">
       <div className="busBooking-container">
@@ -305,8 +292,8 @@ const BusBooking = () => {
             <div className="wrapper">
 
               {sortedBusList?.map((bus) => {
+                console.log(bus.type)
                 const isVrl = bus.type === "vrl" ? true : false;
-
                 const busProps = getBusBookingCardProps(
                   bus,
                   fromLocation,

@@ -13,32 +13,17 @@ import {
   singleladiesbooked,
   singleselected,
 } from "../../assets/busbooking";
-import PickUpAndDropPoints from "../PickUpAndDropPoints/PickUpAndDropPoints";
 import SeatLegend from "../SeatLegend/SeatLegend";
 import "./Seats.scss";
 import Button from "../Button/Button";
 
 const Seats = ({
-  sourceCity,
-  sourceCityId,
-  destinationCity,
-  destinationCityId,
-  tripId,
-  doj,
-  pickUpLocationOne,
   dropLocationOne,
-  travelTime,
-  reachTime,
-  pickUpTime,
-  busType,
-  busName,
   seatDetails,
-  cancellationPolicy,
   fare,
   isVrl,
-  ReferenceNumber,
   isSrs,
-  scheduleId,
+  tripId
 }) => {
   const navigate = useNavigate();
   const [selectedPriceFilter, setSelectedPriceFilter] = useState(null);
@@ -50,20 +35,6 @@ const Seats = ({
     setPrices(fareArray);
   }, [fare]);
 
-  function convertMinutesToTime(minutes) {
-    if (!minutes) {
-      return "";
-    }
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    const hour = hours % 24;
-    const ampm = hour < 12 ? "am" : "pm";
-    const displayHour = hour > 12 ? hour - 12 : hour;
-    const formattedTime = `${displayHour.toString().padStart(2, "0")}:${mins
-      .toString()
-      .padStart(2, "0")} ${ampm}`;
-    return formattedTime;
-  }
 
   const [bookingDetails, setBookingDetails] = useState({
     boardingPoint: {
@@ -774,29 +745,7 @@ const Seats = ({
       //   bookingDetails.totalFare += newServiceTax;
       // }
 
-      navigate("/busbooking/payment", {
-        state: {
-          tripId,
-          sourceCity,
-          sourceCityId,
-          destinationCity,
-          destinationCityId,
-          // routeScheduleId,
-          // inventoryType,
-          doj,
-          pickUpTime,
-          reachTime,
-          travelTime,
-          busType,
-          busName,
-          bookingDetails,
-          cancellationPolicy,
-          isVrl,
-          ReferenceNumber,
-          isSrs,
-          scheduleId,
-        },
-      });
+      navigate("/busbooking/payment");
     } else {
       alert("Please select seats, boarding and droping points");
     }
@@ -840,27 +789,11 @@ const Seats = ({
     }
   };
 
-  const handleBack = () => {
-    switch (selectedTab) {
-      case "pickup":
-        setSelectedTab("seats");
-        break;
-      case "drop":
-        setSelectedTab("pickup");
-        break;
-      default:
-        return null;
-    }
-  };
 
   const renderMobileContent = () => {
     switch (selectedTab) {
       case "seats":
         return renderSeatTableMobile();
-      case "pickup":
-        return renderPickupPoints();
-      case "drop":
-        return renderDropPoints();
       default:
         return null;
     }
@@ -887,7 +820,6 @@ const Seats = ({
           </div>
           {prices.length > 1 && (
             <div className="filters">
-              {/* <p className="tag">Seat Price:</p> */}
               <button
                 className={`filter ${selectedPriceFilter === null ? "highlighted" : ""
                   }`}
@@ -970,192 +902,13 @@ const Seats = ({
     );
   };
 
-  const renderDropPoints = () => {
-    return (
-      <>
-        <div className="seatMobileRight">
-          <div className="drop-pickup-points-mobile">
-            <span className="title">DROP POINT</span>
-            {dropLocationOne.length > 0 && dropLocationOne?.map((droppingPoint, index) => (
-              <PickUpAndDropPoints
-                highlight={
-                  bookingDetails?.droppingPoint?.bpId === droppingPoint?.bpId
-                }
-                key={droppingPoint?.bpId}
-                time={
-                  isVrl || isSrs
-                    ? droppingPoint?.time
-                    : convertMinutesToTime(droppingPoint?.time)
-                }
-                locationOne={droppingPoint?.bpName}
-                locationTwo={droppingPoint?.address}
-                onClick={() => {
-                  if (droppingPoint?.bpName) {
-                    setBookingDetails((prev) => {
-                      const updatedBookingDetails = {
-                        ...prev,
-                        droppingPoint,
-                      };
-
-                      localStorage.setItem('bookingDetails', JSON.stringify(updatedBookingDetails));
-
-                      return updatedBookingDetails;
-                    });
-                  }
-                }}
-              />
-            ))}
-          </div>
-          {error && <div className="alert">{error}</div>}
-
-          <div className="continue">
-            <Button
-              onClicked={() => handleBack()}
-              text={"Back"}
-              style={{ marginRight: "10px" }}
-            />
-            <Button
-              onClicked={() => handleNext()}
-              text={"Fill Passenger Details"}
-            />
-          </div>
-        </div>
-      </>
-    );
-  };
-
-  const renderPickupPoints = () => {
-    return (
-      <div className="seatMobileRight">
-        <div className="drop-pickup-points-mobile">
-          <span className="title">PICKUP POINT</span>
-          {pickUpLocationOne?.map((boardingPoint, index) => (
-            <PickUpAndDropPoints
-              key={boardingPoint.bpId}
-              time={
-                isVrl || isSrs
-                  ? boardingPoint.time
-                  : convertMinutesToTime(boardingPoint.time)
-              }
-              locationOne={boardingPoint.bpName}
-              locationTwo={boardingPoint.address}
-              highlight={
-                bookingDetails.boardingPoint.bpId === boardingPoint.bpId
-              }
-              onClick={() =>
-                setBookingDetails((prev) => {
-                  const updatedBookingDetails = {
-                    ...prev,
-                    boardingPoint,
-                  };
-
-                  localStorage.setItem('bookingDetails', JSON.stringify(updatedBookingDetails));
-
-                  return updatedBookingDetails;
-                })
-              }
-            />
-          ))}
-        </div>
-        {error && <div className="alert">{error}</div>}
-        <div className="continue">
-          <Button
-            onClicked={() => handleBack()}
-            text={"Back"}
-            style={{ marginRight: "10px" }}
-          />
-          <Button
-            onClicked={() => handleNext()}
-            text={"Select Dropping Point"}
-          />
-        </div>
-      </div>
-    );
-  };
 
   return (
     <>
       <div className="seats">
         <div className="mobile-seats">{renderMobileContent()}</div>
 
-        <div className="seatsRight">
-          <h5>Selected Seats</h5>
-          <div className="legend">
-            <SeatLegend title={"Booked"} img={booked} />
-            <SeatLegend title={"Available"} img={available} />
-            <SeatLegend title={"Selected"} img={selectedFill} />
-            <SeatLegend
-              title={"Ladies"}
-              subtitle={"(Available)"}
-              img={ladiesavailable}
-            />
-            <SeatLegend
-              title={"Ladies"}
-              subtitle={"(Booked)"}
-              img={ladiesbooked}
-            />
-          </div>
-
-          {prices.length > 1 && (
-            <div className="filters">
-              <button
-                className={`filter ${selectedPriceFilter === null ? "highlighted" : ""
-                  }`}
-                onClick={() => setSelectedPriceFilter(null)}
-              >
-                All
-              </button>
-              {prices.map((price) => (
-                <button
-                  key={price}
-                  className={`filter ${selectedPriceFilter === price ? "highlighted" : ""
-                    }`}
-                  onClick={() => setSelectedPriceFilter(price)}
-                >
-                  ₹{price}
-                </button>
-              ))}
-              <p className="" id="noSeatsMessage">
-                {"No seats available"}
-              </p>
-            </div>
-          )}
-
-          <div className="bus">
-            <div className="driver">
-              <img src={driver} alt="driver" />
-            </div>
-
-            <div className="gridContainer">
-              {upperTierSeats.length > 0 && <h4>Lower Tier</h4>}
-              {renderSeatTable(lowerTierSeats, bookingDetails.selectedSeats)}
-
-              {upperTierSeats.length > 0 && (
-                <>
-                  <h4>Upper Tier</h4>
-                  {renderSeatTable(
-                    upperTierSeats,
-                    bookingDetails.selectedSeats
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-
-          <div className="continue">
-            <Button onClicked={() => handleContinue()} text={"Continue"} />
-          </div>
-
-          <div className="price">
-            <div className="selectedSeat">
-              <span>Selected Seat(s):</span>
-              <p>
-                {bookingDetails.selectedSeats.join(", ") || "None Selected"}
-              </p>
-            </div>
-            <p>₹ {bookingDetails.fare}</p>
-          </div>
-        </div>
+        
       </div>
     </>
   );

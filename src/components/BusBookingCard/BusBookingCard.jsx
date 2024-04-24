@@ -1,42 +1,26 @@
 import { useEffect, useState } from "react";
 import "./BusBookingCard.scss";
 import Seats from "../Seats/Seats";
-import axiosInstance from "../../utils/service";
 import { Spin } from "antd";
 import toast, { Toaster } from "react-hot-toast";
-import { getVrlSeatLayout } from "../../api/vrlBusesApis";
 import { getSrsSeatLayout } from "../../api/srsBusesApis";
+import axiosInstance from "../../utils/service";
 
 const BusBookingCard = ({
-  tripId,
-  sourceCity,
-  sourceCityId,
-  destinationCity,
-  destinationCityId,
-  doj,
-  busName,
-  busType,
-  pickUpTime,
-  travelTime,
-  reachTime,
-  price,
   allPrices,
   seatsLeft,
-  cancellationPolicy,
   pickUpLocationOne,
   dropLocationOne,
-  backSeat,
   fare,
   isVrl = false,
-  ReferenceNumber,
   scheduleId,
   isSrs = false,
-  isBusAc,
+  tripId
 }) => {
+  //console.log(scheduleId)
   const [showSeats, setShowSeats] = useState(false);
   const [seatDetails, setSeatDetails] = useState([]);
   const [seatLoading, setSeatLoading] = useState(false);
-  const [availableSeats, setAvailableSeats] = useState(seatsLeft);
 
   useEffect(()=>{
     fetchSeatData()
@@ -414,27 +398,28 @@ const BusBookingCard = ({
       });
     }
   };
-
-  // fetch vrl seats
-  const fetchVrlSeats = async () => {
+  const fetchSeatSellerSeats = async () => {
+    let seatData = [];
     try {
-      const seatsResponse = await getVrlSeatLayout({
-        referenceNumber: ReferenceNumber,
-      });
-      let seatData = seatsResponse.data?.ITSSeatDetails;
-      seatData = seatData?.filter((seat) => seat.BlockType === 0);
-      const availableSeats = seatData?.filter((seat) => seat.Available === "Y");
+   
+      const response = await axiosInstance.get(
+        `${import.meta.env.VITE_BASE_URL
+        }/busBooking/getSeatLayout/${tripId}`
+      );
+      seatData = response.data?.seats;
+      const availableSeats = seatData?.filter(
+        (seat) => seat.available === "true"
+      );
+      setAvailableSeats(availableSeats?.length);
       setSeatDetails(seatData);
-      setAvailableSeats(availableSeats.length);
       setSeatLoading(false);
       setShowSeats(!showSeats);
     } catch (error) {
       errorToast(error);
-      console.error(error.message);
+      console.log(error.message);
       setSeatLoading(false);
     }
   };
-
   //fetch srs seats
   const fetchSrsSeats = async () => {
     try {
@@ -491,34 +476,9 @@ const BusBookingCard = ({
       setSeatLoading(false);
     }
   };
-  console.log(tripId)
-  const fetchSeatSellerSeats = async () => {
-    let seatData = [];
-    try {
-   
-      const response = await axiosInstance.get(
-        `${import.meta.env.VITE_BASE_URL
-        }/api/busBooking/getSeatLayout/${tripId}`
-      );
-      seatData = response.data?.seats;
-      const availableSeats = seatData?.filter(
-        (seat) => seat.available === "true"
-      );
-      setAvailableSeats(availableSeats?.length);
-      setSeatDetails(seatData);
-      setSeatLoading(false);
-      setShowSeats(!showSeats);
-    } catch (error) {
-      errorToast(error);
-      console.log(error.message);
-      setSeatLoading(false);
-    }
-  };
 
   const fetchSeatData = async () => {
     if (!showSeats === false) {
-      localStorage.removeItem("isVrl");
-      localStorage.removeItem("ReferenceNumber");
       localStorage.removeItem("isSrs");
       localStorage.removeItem("scheduleId");
       localStorage.removeItem("bookingDetails");
@@ -526,18 +486,9 @@ const BusBookingCard = ({
       return;
     }
     setSeatLoading(true);
-    if (isVrl) {
-      localStorage.setItem("isVrl", true);
-      localStorage.setItem("ReferenceNumber", ReferenceNumber);
-      localStorage.removeItem("isSrs");
-      localStorage.removeItem("scheduleId");
-      await fetchVrlSeats();
-    }
     if (isSrs) {
       localStorage.setItem("isSrs", true);
       localStorage.setItem("scheduleId", scheduleId);
-      localStorage.removeItem("isVrl");
-      localStorage.removeItem("ReferenceNumber");
       await fetchSrsSeats();
     } else if (!isVrl && !isSrs) {
       await fetchSeatSellerSeats();
@@ -590,20 +541,15 @@ const BusBookingCard = ({
 
   useEffect(() => {
     const handleSeatSelectionHistory = async () => {
-      const referenceNumber = localStorage.getItem("ReferenceNumber");
       const id = localStorage.getItem("scheduleId");
-      if (isVrl) {
-        if (referenceNumber.toString() === ReferenceNumber.toString()) {
-          await fetchVrlSeats();
-        }
-      } else if (isSrs) {
+       if (isSrs) {
         if (id.toString() === scheduleId.toString()) {
           await fetchSrsSeats();
         }
       }
     }
     handleSeatSelectionHistory();
-  }, [ReferenceNumber, isSrs, isVrl, scheduleId])
+  }, [ isSrs, isVrl, scheduleId])
 
   return (
     <div className={`BusBookingCard ${showSeats && "bg-lightgrey"}`}>
@@ -617,15 +563,6 @@ const BusBookingCard = ({
       </div>
       {(showSeats && seatsLeft && seatDetails) && (
         <Seats
-          travelTime={travelTime}
-          pickUpTime={pickUpTime}
-          reachTime={reachTime}
-          tripId={tripId}
-          sourceCity={sourceCity}
-          sourceCityId={sourceCityId}
-          destinationCity={destinationCity}
-          destinationCityId={destinationCityId}
-          doj={doj}
           pickUpLocationOne={
             isVrl
               ? vrlPickupLocations
@@ -644,18 +581,11 @@ const BusBookingCard = ({
                   ? dropLocationOne
                   : [dropLocationOne]
           }
-          backSeat={backSeat}
-          busName={busName}
-          busType={busType}
-          price={price}
           seatDetails={seatDetails}
-          cancellationPolicy={cancellationPolicy}
           fare={isVrl ? allPrices : isSrs ? convertSrsFare(fare) : convertSeatSellerFare(fare)}
           isVrl={isVrl}
-          ReferenceNumber={ReferenceNumber}
-          scheduleId={scheduleId}
           isSrs={isSrs}
-          isAcBus={isVrl ? isBusAc : seatDetails.isAcBus}
+          tripId={tripId}
         />
       )}
       <Toaster />

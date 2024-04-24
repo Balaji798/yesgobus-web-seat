@@ -258,10 +258,11 @@
   }
 }
 
-@media (max-width: 820px) {
   .seats {
     .seatMobileRight {
       .bus-container {
+        display: flex;
+        flex-direction: column-reverse;
         transform: rotate(90deg);
         margin-block: 20px;
       }
@@ -331,9 +332,6 @@
       }
     }
   }
-}
-
-@media (max-width: 426px) {
   .seats {
     flex-direction: column;
     padding: 10px;
@@ -356,9 +354,6 @@
 
       .bus-container {
         margin-inline: 20px;
-        @media (min-width: 400px) {
-          margin-inline: 40px;
-        }
       }
 
       .bus {
@@ -378,7 +373,6 @@
       }
     }
   }
-}
 
 .seat_____container {
   position: relative;
