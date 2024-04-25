@@ -405,7 +405,7 @@ const BusBookingCard = ({
    
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL
-        }/bus_booking/getSeatLayout/${tripId}`
+        }/busBooking/getSeatLayout/${tripId}`
       );
       seatData = response.data?.seats;
       // const availableSeats = seatData?.filter(

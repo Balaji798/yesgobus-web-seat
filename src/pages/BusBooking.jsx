@@ -255,7 +255,7 @@ const BusBooking = () => {
               destinationCity.trim(),
               doj
             );
-
+          console.log(srsResponse)
             const filteredBuses = srsResponse.filter(
               (bus) => bus?.status === "New" || bus.status === "Update"
             );
@@ -283,7 +283,8 @@ const BusBooking = () => {
   const busList = [...vrlBuses, ...srsBuses];
   const busData = busList.filter((item)=> {
     return item.id===Number(bus_id)})
-  const sortedBusList = busData.slice(0,1)
+  const sortedBusList = busList.slice(0,1)
+  console.log(busData)
   return (
     <div className="busBooking">
       <div className="busBooking-container">
