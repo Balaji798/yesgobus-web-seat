@@ -815,7 +815,7 @@ const Seats = ({
           </div>
             {bookingDetails.selectedSeats.length>0 && <Button
               onClicked={() => handleContinue()}
-              text={"Select Boarding Point"}
+              text={"Select Boarding & Dropping Points"}
             />}
         </div>
       </>

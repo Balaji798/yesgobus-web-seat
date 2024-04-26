@@ -1,11 +1,12 @@
 .button {
-    font-size: 15px;
+    font-size: 18px;
     padding: 12px 19px;
     background: #fd5901;
     position: fixed;
     top: 30;
     width: 100%;
     max-width: 340px;
+    border-radius: 25px;
     border: none;
     color: white;
     &:hover {
