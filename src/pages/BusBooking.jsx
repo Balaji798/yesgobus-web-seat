@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 
 import { Spin } from "antd";
 import { useLocation } from "react-router-dom";
-import { cityMapping } from "../utils/cityMapping";
-import { getVrlBuses } from "../api/vrlBusesApis";
 import { getSrsBuses } from "../api/srsBusesApis";
 import { getBusBookingCardProps } from "../utils/BusBookingHelpers";
 
@@ -68,9 +66,7 @@ const BusBooking = () => {
     console.log(item.id,Number(bus_id))
     return item.id === Number(bus_id);
   });
-  console.log(busData)
   const sortedBusList = busData.slice(0, 1);
-  console.log(busData);
   return (
           <Spin spinning={loading}>
             <div className="wrapper">
