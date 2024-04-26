@@ -701,7 +701,7 @@ const Seats = ({
       try{
         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/busBooking/add_bus`,{selectedSeats:bookingDetails.seats,totalFare:bookingDetails.totalFare,bus_id})
         console.log(res.data)
-        navigate(`/home/?bus_id=${res.data.data._id}`);
+        navigate(`/home/:${res.data.data._id}`);
       }catch(err){
         console.log(err)
       }
