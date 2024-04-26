@@ -1,5 +1,3 @@
-import logo from "./logo.png";
-import hamburger from "./hamburger.png";
-import blackhamburger from "./hamburger-black.png";
+import female from "./female.png";
 
-export { logo, hamburger, blackhamburger };
+export { female };

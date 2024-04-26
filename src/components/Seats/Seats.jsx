@@ -13,6 +13,7 @@ import {
   singleladiesbooked,
   singleselected,
 } from "../../assets/busbooking";
+import { female } from "../../assets";
 import SeatLegend from "../SeatLegend/SeatLegend";
 import "./Seats.scss";
 import Button from "../Button/Button";
@@ -732,11 +733,13 @@ const Seats = ({
               title={"Ladies"}
               subtitle={"(Available)"}
               img={ladiesavailable}
+              ladies={female}
             />
             <SeatLegend
               title={"Ladies"}
               subtitle={"(Booked)"}
               img={ladiesbooked}
+              ladies={female}
             />
           </div>
           {prices.length > 1 && (
