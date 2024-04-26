@@ -16,13 +16,14 @@ import {
 import SeatLegend from "../SeatLegend/SeatLegend";
 import "./Seats.scss";
 import Button from "../Button/Button";
+import axios from "axios";
 
 const Seats = ({
-  dropLocationOne,
   seatDetails,
   fare,
   isVrl,
   isSrs,
+  bus_id
 }) => {
   const navigate = useNavigate();
   const [selectedPriceFilter, setSelectedPriceFilter] = useState(null);
@@ -58,6 +59,7 @@ const Seats = ({
     serviceTax: 0,
     operatorTax: 0,
     totalFare: 0,
+    seats:[]
   });
   const seatSelectionHandler = (
     seatId,
@@ -72,6 +74,7 @@ const Seats = ({
 
     return setBookingDetails((prev) => {
       let newSelected = [...prev.selectedSeats];
+      let seats = [...prev.seats];
       let newFare = roundToDecimal(parseFloat(prev.fare), 2);
       let newTax = roundToDecimal(parseFloat(prev.serviceTax), 2);
       let newOperatorTax = roundToDecimal(parseFloat(prev.operatorTax), 2);
@@ -85,6 +88,7 @@ const Seats = ({
 
       if (seatIndex === -1) {
         if (newSelected.length < 5) {
+          seats.push({seatId,seatFare:roundToDecimal(parseFloat(fare), 2),seatTax:roundToDecimal(parseFloat(serviceTax), 2),seatTotalFares:roundToDecimal(parseFloat(totalFare), 2)})
           newSelected.push(seatId);
           newFare += roundToDecimal(parseFloat(fare), 2);
           newTax += roundToDecimal(parseFloat(serviceTax), 2);
@@ -120,20 +124,12 @@ const Seats = ({
         seatTaxes: newSeatTaxes,
         seatTotalFares: newSeatTotalFares,
         ladiesSeat: newLadiesSeat,
+        seats: seats
       };
-
-      localStorage.setItem('bookingDetails', JSON.stringify(updatedBookingDetails));
 
       return updatedBookingDetails;
     });
   };
-
-  useEffect(() => {
-    const storedBookingDetails = JSON.parse(localStorage.getItem('bookingDetails'));
-    if (storedBookingDetails) {
-      setBookingDetails(storedBookingDetails);
-    }
-  }, []);
 
   const lowerTierSeats = isVrl
     ? seatDetails.filter((seat) => seat.UpLowBerth === "LB")
@@ -701,92 +697,18 @@ const Seats = ({
     }
   };
 
-  // useEffect(() => {
-  //   const getSeats = async () => {
-  //     try {
-  //       const response = await axiosInstance.post(
-  //         `${import.meta.env.VITE_BASE_URL}/api/busBooking/getSeatLayout`,
-  //         {
-  //           sourceCity: sourceCity,
-  //           destinationCity: destinationCity,
-  //           doj: doj,
-  //           inventoryType: inventoryType,
-  //           routeScheduleId: routeScheduleId,
-  //         }
-  //       );
-  //       setBoardingPoint(response.data.boardingPoints);
-  //       setDroppingPoint(response.data.droppingPoints);
-  //     } catch (error) {
-  //       alert("Something went wrong");
-  //       console.error("Something went wrong:", error);
-  //     }
-  //   };
-  //   getSeats();
-  // }, []);
-
-  const handleContinue = () => {
-    if (
-      bookingDetails.boardingPoint.bpId &&
-      (bookingDetails.droppingPoint.bpId || dropLocationOne[0] === undefined || dropLocationOne[0]?.bpName === undefined) &&
-      bookingDetails.selectedSeats.length !== 0
-    ) {
-      // Add GST 5 %
-      let newGst = parseFloat(bookingDetails.fare) * (5 / 100);
-      // bookingDetails.gst = newGst;
-      bookingDetails.gst = 0;
-      // bookingDetails.totalFare = bookingDetails.totalFare + newGst;
-
-      // if AC bus, add platform charge
-      // if (isAcBus) {
-      //   const newServiceTax =
-      //     import.meta.env.VITE_SERVICE_TAX * parseFloat(bookingDetails.fare);
-      //   bookingDetails.serviceTax += newServiceTax;
-      //   bookingDetails.totalFare += newServiceTax;
-      // }
-
-      navigate("/busbooking/payment");
-    } else {
-      alert("Please select seats, boarding and droping points");
-    }
+  const handleContinue = async() => {
+      try{
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/busBooking/add_bus`,{selectedSeats:bookingDetails.seats,totalFare:bookingDetails.totalFare,bus_id})
+        console.log(res.data)
+        navigate("/home");
+      }catch(err){
+        console.log(err)
+      }
+     
   };
 
-  const [error, setError] = useState(null);
 
-  const handleNext = () => {
-    switch (selectedTab) {
-      case "seats":
-        if (bookingDetails.selectedSeats.length > 0) {
-          setError(null);
-          setSelectedTab("pickup");
-        } else {
-          setError("Please select at least one seat.");
-        }
-        break;
-      case "pickup":
-        console.log(bookingDetails);
-        if (bookingDetails.boardingPoint.bpId) {
-          setError(null);
-          setSelectedTab("drop");
-        } else {
-          setError("Please select a pickup location.");
-        }
-        break;
-      case "drop":
-        if (bookingDetails?.droppingPoint?.bpId) {
-          setError(null);
-          handleContinue();
-        } if (dropLocationOne[0] === undefined || dropLocationOne[0]?.bpName === undefined) {
-          setError(null);
-          handleContinue();
-        } else {
-          setError("Please select a drop location.");
-          console.log(dropLocationOne);
-        }
-        break;
-      default:
-        return null;
-    }
-  };
 
 
   const renderMobileContent = () => {
@@ -888,10 +810,9 @@ const Seats = ({
             </div>
             <p>{bookingDetails.selectedSeats.length>0?`₹ ${bookingDetails.fare}`:""}</p>
           </div>
-          {error && <div className="alert">{error}</div>}
           <div className="continue">
             {bookingDetails.selectedSeats.length>0 && <Button
-              onClicked={() => handleNext()}
+              onClicked={() => handleContinue()}
               text={"Select Boarding Point"}
             />}
           </div>

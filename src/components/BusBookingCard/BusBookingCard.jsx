@@ -420,7 +420,6 @@ const BusBookingCard = ({
   const fetchSrsSeats = async () => {
     try {
       const seatsResponse = await getSrsSeatLayout(scheduleId);
-      console.log(seatsResponse)
       let coach_details = seatsResponse.result.bus_layout?.coach_details;
       let available = seatsResponse.result.bus_layout?.available;
       let available_gst = seatsResponse.result.bus_layout?.available_gst;
@@ -583,6 +582,7 @@ const BusBookingCard = ({
           isVrl={isVrl}
           isSrs={isSrs}
           tripId={tripId}
+          bus_id={scheduleId}
         />
       )}
       <Toaster />

@@ -14,10 +14,8 @@ const BusBooking = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const bus_id = queryParams.get("bus_id");
-  const sourceCity =
-    queryParams.get("from");
-  const destinationCity =
-    queryParams.get("to");
+  const sourceCity = queryParams.get("from");
+  const destinationCity = queryParams.get("to");
   const queryDate = queryParams.get("date");
 
   useEffect(() => {
@@ -63,33 +61,29 @@ const BusBooking = () => {
   };
 
   const busData = srsBuses.filter((item) => {
-    console.log(item.id,Number(bus_id))
     return item.id === Number(bus_id);
   });
   const sortedBusList = busData.slice(0, 1);
   return (
-          <Spin spinning={loading}>
-            <div className="wrapper">
-              {sortedBusList?.map((bus) => {
-                console.log(bus.type);
-                const busProps = getBusBookingCardProps(
-                  bus,
-                  sourceCity,
-                  destinationCity,
-                  queryDate
-                );
+    <Spin spinning={loading}>
+      <div className="wrapper">
+        {sortedBusList?.map((bus) => {
+          console.log(bus.type);
+          const busProps = getBusBookingCardProps(
+            bus,
+            sourceCity,
+            destinationCity,
+            queryDate
+          );
 
-                return (
-                  <div
-                    className="bus-card-container"
-                    key={bus.id}
-                  >
-                    <BusBookingCard {...busProps} key={bus?.ReferenceNumber} />
-                  </div>
-                );
-              })}
+          return (
+            <div className="bus-card-container" key={bus.id}>
+              <BusBookingCard {...busProps} key={bus?.ReferenceNumber} />
             </div>
-          </Spin>
+          );
+        })}
+      </div>
+    </Spin>
   );
 };
 
