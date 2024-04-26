@@ -3,8 +3,9 @@ import "./SeatLegend.scss";
 const SeatLegend = ({ title, img, subtitle }) => {
   return (
     <div className="SeatLegend">
-      <span>{title}</span>
-      <p className="subtitle">{subtitle}</p>
+    <p>
+    <span>{title}</span>
+    </p>
       <img className="legendImage" src={img} alt="" />
     </div>
   );

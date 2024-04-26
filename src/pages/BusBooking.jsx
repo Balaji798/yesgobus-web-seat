@@ -66,7 +66,6 @@ const BusBooking = () => {
   const sortedBusList = busData.slice(0, 1);
   return (
     <Spin spinning={loading}>
-      <div className="wrapper">
         {sortedBusList?.map((bus) => {
           console.log(bus.type);
           const busProps = getBusBookingCardProps(
@@ -77,12 +76,11 @@ const BusBooking = () => {
           );
 
           return (
-            <div className="bus-card-container" key={bus.id}>
+            <div className="bus-card-container" style={{width:"100%"}} key={bus.id}>
               <BusBookingCard {...busProps} key={bus?.ReferenceNumber} />
             </div>
           );
         })}
-      </div>
     </Spin>
   );
 };

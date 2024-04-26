@@ -810,12 +810,10 @@ const Seats = ({
             </div>
             <p>{bookingDetails.selectedSeats.length>0?`₹ ${bookingDetails.fare}`:""}</p>
           </div>
-          <div className="continue">
             {bookingDetails.selectedSeats.length>0 && <Button
               onClicked={() => handleContinue()}
               text={"Select Boarding Point"}
             />}
-          </div>
         </div>
       </>
     );
