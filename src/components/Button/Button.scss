@@ -2,9 +2,10 @@
     font-size: 15px;
     padding: 12px 19px;
     background: #fd5901;
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    bottom: 10;
     width: 100%;
+    max-width: 350px;
     border: none;
     color: white;
     &:hover {
