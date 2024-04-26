@@ -4,7 +4,6 @@ import Seats from "../Seats/Seats";
 import { Spin } from "antd";
 import toast, { Toaster } from "react-hot-toast";
 import { getSrsSeatLayout } from "../../api/srsBusesApis";
-//import axiosInstance from "../../utils/service";
 import axios from "axios";
 
 const BusBookingCard = ({
@@ -402,16 +401,12 @@ const BusBookingCard = ({
   const fetchSeatSellerSeats = async () => {
     let seatData = [];
     try {
-   
+     console.log(tripId)
       const response = await axios.get(
         `${import.meta.env.VITE_BASE_URL
         }/busBooking/getSeatLayout/${tripId}`
       );
       seatData = response.data?.seats;
-      // const availableSeats = seatData?.filter(
-      //   (seat) => seat.available === "true"
-      // );
-      //setAvailableSeats(availableSeats?.length);
       setSeatDetails(seatData);
       setSeatLoading(false);
       setShowSeats(!showSeats);
@@ -425,6 +420,7 @@ const BusBookingCard = ({
   const fetchSrsSeats = async () => {
     try {
       const seatsResponse = await getSrsSeatLayout(scheduleId);
+      console.log(seatsResponse)
       let coach_details = seatsResponse.result.bus_layout?.coach_details;
       let available = seatsResponse.result.bus_layout?.available;
       let available_gst = seatsResponse.result.bus_layout?.available_gst;

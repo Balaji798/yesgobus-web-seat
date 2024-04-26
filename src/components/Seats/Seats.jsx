@@ -23,7 +23,6 @@ const Seats = ({
   fare,
   isVrl,
   isSrs,
-  tripId
 }) => {
   const navigate = useNavigate();
   const [selectedPriceFilter, setSelectedPriceFilter] = useState(null);

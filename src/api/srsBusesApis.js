@@ -16,7 +16,7 @@ export const getSrsBuses = async (sourceCity, destinationCity, doj) => {
 export const getSrsSeatLayout = async (schedule_id) => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BASE_URL}/busBooking/getSrsSeatDetails/${schedule_id}`
+      `${import.meta.env.VITE_BASE_URL}/busBooking/srsSeatDetails/${schedule_id}`
     );
     return response.data;
   } catch (error) {
