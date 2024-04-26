@@ -882,19 +882,18 @@ const Seats = ({
 
           <div className="price">
             <div className="selectedSeat">
-              <span>Selected Seat(s):</span>
               <p>
-                {bookingDetails.selectedSeats.join(", ") || "None Selected"}
+                {bookingDetails.selectedSeats.length>0?`${bookingDetails.selectedSeats.length} Seat | `:""} {bookingDetails.selectedSeats.join(", ")}
               </p>
             </div>
-            <p>₹ {bookingDetails.fare}</p>
+            <p>{bookingDetails.selectedSeats.length>0?`₹ ${bookingDetails.fare}`:""}</p>
           </div>
           {error && <div className="alert">{error}</div>}
           <div className="continue">
-            <Button
+            {bookingDetails.selectedSeats.length>0 && <Button
               onClicked={() => handleNext()}
               text={"Select Boarding Point"}
-            />
+            />}
           </div>
         </div>
       </>

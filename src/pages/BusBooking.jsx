@@ -52,7 +52,6 @@ const BusBooking = () => {
         destinationCity.trim(),
         doj
       );
-      console.log(srsResponse);
       const filteredBuses = srsResponse.filter(
         (bus) => bus?.status === "New" || bus.status === "Update"
       );
@@ -66,14 +65,13 @@ const BusBooking = () => {
   };
 
   const busData = srsBuses.filter((item) => {
+    console.log(item.id,Number(bus_id))
     return item.id === Number(bus_id);
   });
+  console.log(busData)
   const sortedBusList = busData.slice(0, 1);
   console.log(busData);
   return (
-    <div className="busBooking">
-      <div className="busBooking-container">
-        <div className="right">
           <Spin spinning={loading}>
             <div className="wrapper">
               {sortedBusList?.map((bus) => {
@@ -96,9 +94,6 @@ const BusBooking = () => {
               })}
             </div>
           </Spin>
-        </div>
-      </div>
-    </div>
   );
 };
 
