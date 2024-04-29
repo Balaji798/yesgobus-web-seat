@@ -23,13 +23,11 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 100vh;
+  font-family: "Comic Sans", sans-serif;
+  color: #2f2d38;
   overflow-x: hidden;
+  margin: 0px;
+  position: relative;
 }
 
 h1 {
