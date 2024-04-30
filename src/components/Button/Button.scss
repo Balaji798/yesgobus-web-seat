@@ -1,14 +1,10 @@
 .button {
-    font-size: 18px;
+    font-size: 15px;
     padding: 12px 19px;
     background: #fd5901;
-    position: fixed;
-    top: 30;
-    width: 100%;
-    max-width: 340px;
-    border-radius: 25px;
     border: none;
     color: white;
+    border-radius: 15px;
     &:hover {
         cursor: pointer;
         box-shadow: 0px 0px 5px 1px #fd5901;
@@ -19,7 +15,5 @@
     .button {
         padding: 10px 15px;
         font-size: 12px;
-        position: fixed;
-        margin-top: -10px;
     }
 }

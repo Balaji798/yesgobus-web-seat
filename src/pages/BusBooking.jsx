@@ -6,6 +6,7 @@ import { Spin } from "antd";
 import { useLocation } from "react-router-dom";
 import { getSrsBuses } from "../api/srsBusesApis";
 import { getBusBookingCardProps } from "../utils/BusBookingHelpers";
+import axios from "axios";
 
 const BusBooking = () => {
   const location = useLocation();
@@ -48,6 +49,8 @@ const BusBooking = () => {
         destinationCity.trim(),
         doj
       );
+      const data = await axios.get("http://localhost:8080/busBooking/getSrsSchedules/Mumbai/Pune/2024-04-30");
+      console.log(data.data)
       const filteredBuses = srsResponse.filter(
         (bus) => bus?.status === "New" || bus.status === "Update"
       );
@@ -59,11 +62,11 @@ const BusBooking = () => {
       console.log(error);
     }
   };
-
   const busData = srsBuses.filter((item) => {
     return item.id === Number(bus_id);
   });
   const sortedBusList = busData.slice(0, 1);
+  console.log(srsBuses,sortedBusList)
   return (
     <Spin spinning={loading}>
         {sortedBusList?.map((bus) => {

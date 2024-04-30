@@ -813,10 +813,12 @@ const Seats = ({
             </div>
             <p>{bookingDetails.selectedSeats.length>0?`₹ ${bookingDetails.fare}`:""}</p>
           </div>
-            {bookingDetails.selectedSeats.length>0 && <Button
+            <div className="continue">
+            <Button
               onClicked={() => handleContinue()}
-              text={"Select Boarding & Dropping Points"}
-            />}
+              text={"Select Boarding Point & Doping Point"}
+            />
+          </div>
         </div>
       </>
     );

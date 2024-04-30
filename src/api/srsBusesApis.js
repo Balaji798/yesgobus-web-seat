@@ -2,7 +2,6 @@ import axios from "axios";
 
 export const getSrsBuses = async (sourceCity, destinationCity, doj) => {
   try {
-    console.log(sourceCity, destinationCity, doj)
     const response = await axios.get(
       `${import.meta.env.VITE_BASE_URL}/busBooking/srcSchedules/${sourceCity}/${destinationCity}/${doj}`
     );

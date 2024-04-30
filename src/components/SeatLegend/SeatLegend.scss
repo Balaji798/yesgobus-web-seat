@@ -1,10 +1,18 @@
 .SeatLegend {
     display: flex;
     flex-direction: column;
-    width: 50px;
+    justify-content: space-between;
+    .subtitle {
+        font-size: 12px;
+        color: #dadada;
+    }
     img {
-        height: 25px;
-        width: 50px;
+        height: 20px;
+        width: 40px;
+    }
+    .singleseat {
+        height: 40px;
+        width: 70px;
     }
 }
 
@@ -12,6 +20,9 @@
     .SeatLegend {
         span {
             font-size: 12px;
+        }
+        .subtitle {
+            font-size: 9px;
         }
     }
 }
