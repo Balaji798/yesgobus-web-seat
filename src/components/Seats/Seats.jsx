@@ -742,6 +742,7 @@ const Seats = ({
               ladies={female}
             />
           </div>
+          <div style={{height:"50px",marginTop: "10px"}}>
           {prices.length > 1 && (
             <div className="filters">
               <button
@@ -766,6 +767,7 @@ const Seats = ({
               </p>
             </div>
           )}
+          </div>
           <div
             className="bus-container"
             style={

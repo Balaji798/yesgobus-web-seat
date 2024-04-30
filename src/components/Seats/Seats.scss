@@ -86,7 +86,6 @@
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
-      margin-top: 10px;
       font-size: 12px;
 
       .highlighted {
@@ -231,7 +230,7 @@
     .continue {
       display: flex;
       justify-content: center;
-      margin-top: -15px;
+      margin-top: -10px;
     }
 
     .price {
@@ -239,7 +238,6 @@
       display: flex;
       align-items: end;
       justify-content: space-between;
-      height: 50px;
       .selectedSeat {
         span {
           font-size: 15px;
@@ -357,7 +355,7 @@
       width: 100%;
 
       .bus-container {
-        margin-top: 10px;
+        margin-top: 20px;
         // @media (min-width: 400px) {
         //   margin-inline: 40px;
         // }
@@ -366,7 +364,6 @@
       .bus {
         overflow-x: auto;
         min-height: 250px;
-        margin-top: 10px;
       }
     }
 
