@@ -774,6 +774,20 @@ const Seats = ({
                 : {}
             }
           >
+          {upperTierSeats.length > 0 && (
+            <div className="bus">
+              <div className="driver">
+              <img src={driver} alt="driver" style={{opacity:0}}/>
+                <h4 className="tier-label">Upper Tier</h4>
+              </div>
+              <div className="gridContainer">
+                  {renderSeatTable(
+                    upperTierSeats,
+                    bookingDetails.selectedSeats
+                  )}
+              </div>
+            </div>
+          )}
             <div className="bus">
               <div className="driver">
                 <img src={driver} alt="driver" />
@@ -787,19 +801,7 @@ const Seats = ({
                 {renderSeatTable(lowerTierSeats, bookingDetails.selectedSeats)}
               </div>
             </div>
-            {upperTierSeats.length > 0 && (
-              <div className="bus">
-                <div className="driver">
-                  <h4 className="tier-label">Upper Tier</h4>
-                </div>
-                <div className="gridContainer">
-                    {renderSeatTable(
-                      upperTierSeats,
-                      bookingDetails.selectedSeats
-                    )}
-                </div>
-              </div>
-            )}
+
           </div>
 
           <div className="price">
