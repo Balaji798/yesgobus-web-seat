@@ -49,7 +49,7 @@ const BusBooking = () => {
         destinationCity.trim(),
         doj
       );
-      const data = await axios.get("http://localhost:8080/busBooking/getSrsSchedules/Mumbai/Pune/2024-04-30");
+      const data = await axios.get("https://yesgobus-backend.onrender.com/busBooking/getSrsSchedules/Mumbai/Pune/2024-04-30");
       console.log(data.data)
       const filteredBuses = srsResponse.filter(
         (bus) => bus?.status === "New" || bus.status === "Update"
