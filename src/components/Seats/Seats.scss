@@ -356,9 +356,9 @@
 
       .bus-container {
         margin-inline: 20px;
-        @media (min-width: 400px) {
-          margin-inline: 40px;
-        }
+        // @media (min-width: 400px) {
+        //   margin-inline: 40px;
+        // }
       }
 
       .bus {
