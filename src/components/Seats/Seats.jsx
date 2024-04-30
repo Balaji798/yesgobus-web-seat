@@ -742,7 +742,7 @@ const Seats = ({
               ladies={female}
             />
           </div>
-          <div style={{height:"50px",marginTop: "10px"}}>
+          <div style={{minHeight:prices.length > 1?"50px":"5px",marginTop: "10px"}}>
           {prices.length > 1 && (
             <div className="filters">
               <button
