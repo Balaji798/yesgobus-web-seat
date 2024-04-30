@@ -774,7 +774,7 @@ const Seats = ({
                 : {}
             }
           >
-            <div className="bus">
+            <div className="bus" style={{maxHeight:upperTierSeats.length > 0 ?"130px": "150px"}}>
               <div className="driver">
                 <img src={driver} alt="driver" />
                 {upperTierSeats.length > 0 && (
