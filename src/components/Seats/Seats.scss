@@ -86,7 +86,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
-      margin-top: 30px;
+      margin-top: 10px;
       font-size: 12px;
 
       .highlighted {
@@ -270,7 +270,7 @@
         // width: 350px;
         // margin-top: 50px;
         // margin-bottom: 50px;
-        min-height: 135px !important;
+        min-height: 120px !important;
 
         .driver {
           width: 20%;
@@ -355,7 +355,7 @@
       width: 100%;
 
       .bus-container {
-        margin-top: 40px;
+        margin-top: 20px;
         // @media (min-width: 400px) {
         //   margin-inline: 40px;
         // }
