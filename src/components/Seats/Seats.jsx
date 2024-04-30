@@ -793,13 +793,10 @@ const Seats = ({
                   <h4 className="tier-label">Upper Tier</h4>
                 </div>
                 <div className="gridContainer">
-                  <>
-                    {/* <h4>Upper Tier</h4> */}
                     {renderSeatTable(
                       upperTierSeats,
                       bookingDetails.selectedSeats
                     )}
-                  </>
                 </div>
               </div>
             )}
