@@ -262,8 +262,9 @@
   .seats {
     .seatMobileRight {
       .bus-container {
+        margin-top: -30px;
         transform: rotate(90deg);
-        margin-block: 20px;
+        margin-bottom: 10px;
       }
 
       .bus {
@@ -359,7 +360,7 @@
       width: 100%;
 
       .bus-container {
-        margin-top: 20px;
+        //margin-top: 20px;
         // @media (min-width: 400px) {
         //   margin-inline: 40px;
         // }
