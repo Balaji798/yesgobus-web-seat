@@ -150,7 +150,7 @@
         justify-content: center;
         position: sticky;
         left: 0;
-
+        z-index: 1;
         img {
           margin-top: 20px;
         }
@@ -262,7 +262,7 @@
   .seats {
     .seatMobileRight {
       .bus-container {
-        margin-top: -30px;
+        margin-top: -15px;
         transform: rotate(90deg);
         margin-bottom: 10px;
       }
