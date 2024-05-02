@@ -168,9 +168,10 @@
           margin-bottom: 20px;
         }
 
-        h4 {
+        h6 {
           text-align: center;
           font-size: 12px;
+          width: 4rem;
         }
 
         table:nth-child(2) {
@@ -270,7 +271,7 @@
         // margin-top: 50px;
         // margin-bottom: 50px;
         max-height: 150px;
-        min-height: 100px !important;
+        min-height: 150px !important;
 
         .driver {
           width: 20%;
@@ -281,14 +282,17 @@
             flex-direction: column;
             gap: 1rem;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: space-between;
           }
 
           img {
             max-width: 30px;
           }
 
-          h4 {
+          h6 {
+            font-size: 12px;
+            width: 4rem;
+            text-align: start;
             transform: rotate(-90deg);
           }
         }

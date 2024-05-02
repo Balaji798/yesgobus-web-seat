@@ -780,7 +780,7 @@ const Seats = ({
               <div className="driver">
                 <img src={driver} alt="driver" />
                 {upperTierSeats.length > 0 && (
-                  <h4 className="tier-label">Lower Tier</h4>
+                  <h6 className="tier-label">Lower Tier</h6>
                 )}
               </div>
 
@@ -793,7 +793,7 @@ const Seats = ({
               <div className="bus">
                 <div className="driver">
                 <img src={driver} alt="driver" style={{opacity:0}}/>
-                  <h4 className="tier-label">Upper Tier</h4>
+                  <h6 className="tier-label">Upper Tier</h6>
                 </div>
                 <div className="gridContainer">
                     {renderSeatTable(
